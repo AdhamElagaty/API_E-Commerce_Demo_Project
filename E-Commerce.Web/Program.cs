@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Data.Contexts;
+using E_Commerce.Web.Helper;
 
 namespace E_Commerce.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ namespace E_Commerce.Web
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            await ApplySeeding.ApplySeedingAsync(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

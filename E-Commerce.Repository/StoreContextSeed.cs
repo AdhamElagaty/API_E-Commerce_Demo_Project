@@ -18,21 +18,21 @@ namespace E_Commerce.Repository
             {
                 if (context.ProductBrands != null && !context.ProductBrands.Any())
                 {
-                    var brandsData = File.ReadAllText("../Store.Repository/SeedData/brands.json");
+                    var brandsData = File.ReadAllText("../E-Commerce.Repository/SeedData/brands.json");
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
                     if (brands is not null)
                         await context.ProductBrands.AddRangeAsync(brands);
                 }
                 if (context.ProductTypes != null && !context.ProductTypes.Any())
                 {
-                    var typesData = File.ReadAllText("../Store.Repository/SeedData/types.json");
+                    var typesData = File.ReadAllText("../E-Commerce.Repository/SeedData/types.json");
                     var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
                     if (types is not null)
                         await context.ProductTypes.AddRangeAsync(types);
                 }
                 if (context.Products != null && !context.Products.Any())
                 {
-                    var productsData = File.ReadAllText("../Store.Repository/SeedData/products.json");
+                    var productsData = File.ReadAllText("../E-Commerce.Repository/SeedData/products.json");
                     var products = JsonSerializer.Deserialize<List<Product>>(productsData);
                     if (products is not null)
                         await context.Products.AddRangeAsync(products);
