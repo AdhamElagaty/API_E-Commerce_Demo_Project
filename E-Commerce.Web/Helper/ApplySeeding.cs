@@ -15,6 +15,7 @@ namespace E_Commerce.Web.Helper
                 try
                 {
                     var context = services.GetRequiredService<ECommerceDbContext>();
+                    await context.Database.MigrateAsync();
                     await StoreContextSeed.SeedAsync(context, loggerFactory);
                 }
                 catch (Exception ex)
