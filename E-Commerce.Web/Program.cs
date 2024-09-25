@@ -3,6 +3,8 @@ using E_Commerce.Data.Contexts;
 using E_Commerce.Web.Helper;
 using E_Commerce.Repository.Interfaces;
 using E_Commerce.Repository.Repository;
+using E_Commerce.Service.Services.ProductServices;
+using E_Commerce.Service.Services.ProductServices.Dtos;
 
 namespace E_Commerce.Web
 {
@@ -22,6 +24,8 @@ namespace E_Commerce.Web
             });
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddAutoMapper(typeof(ProductProfile));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
