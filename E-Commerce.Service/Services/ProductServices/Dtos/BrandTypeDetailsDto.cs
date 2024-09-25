@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Service.Services.ProductService.Dtos
+namespace E_Commerce.Service.Services.ProductServices.Dtos
 {
     public class BrandTypeDetailsDto
     {

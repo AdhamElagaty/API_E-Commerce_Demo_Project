@@ -1,11 +1,11 @@
-﻿using E_Commerce.Service.Services.ProductService.Dtos;
+﻿using E_Commerce.Service.Services.ProductServices.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Service.Services.ProductService
+namespace E_Commerce.Service.Services.ProductServices
 {
     public interface IProductService
     {
