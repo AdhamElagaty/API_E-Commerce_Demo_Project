@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Data.Contexts;
 using E_Commerce.Web.Helper;
+using E_Commerce.Repository.Interfaces;
+using E_Commerce.Repository.Repository;
 
 namespace E_Commerce.Web
 {
@@ -18,6 +20,8 @@ namespace E_Commerce.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
