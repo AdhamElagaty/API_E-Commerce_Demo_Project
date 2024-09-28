@@ -44,7 +44,9 @@ namespace E_Commerce.Repository.Repository
             => await ApplySpecification(specs).FirstOrDefaultAsync();
 
         private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specs)
-        => SpecificationEvaluator<TEntity, TKey>.GetQuery(_context.Set<TEntity>(), specs);
-
+            => SpecificationEvaluator<TEntity, TKey>.GetQuery(_context.Set<TEntity>(), specs);
+        
+        public async Task<int> GetCoutSpecificationAsync(ISpecification<TEntity> specs)
+            => await ApplySpecification(specs).CountAsync();
     }
 }

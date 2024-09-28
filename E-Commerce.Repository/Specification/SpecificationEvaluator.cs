@@ -22,6 +22,9 @@ namespace E_Commerce.Repository.Specification
             if (specs.OrderByDescending is not null)
                 query = query.OrderByDescending(specs.OrderByDescending);
 
+            if (specs.IsPaginated)
+                query = query.Skip(specs.Skip).Take(specs.Take);
+
             query = specs.Includes.Aggregate(query, (current, includeExpression) => current.Include(includeExpression));
 
             return query;

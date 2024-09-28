@@ -2,6 +2,7 @@
 using E_Commerce.Data.Entities;
 using E_Commerce.Repository.Interfaces;
 using E_Commerce.Repository.Specification.ProductSpecs;
+using E_Commerce.Service.Helper;
 using E_Commerce.Service.Services.ProductServices.Dtos;
 using System;
 using System.Collections.Generic;
@@ -30,13 +31,15 @@ namespace E_Commerce.Service.Services.ProductServices
             return mappedBrands;
         }
 
-        public async Task<IReadOnlyList<ProductDetailsDto>> GetAllProductsAsync(ProductSpecification input)
+        public async Task<PaginatedResultDto<ProductDetailsDto>> GetAllProductsAsync(ProductSpecification input)
         {
             var specs = new ProductWithSpecifications(input);
             var products = await _unitOfWork.Repository<Product, int>().GetAllWithSpecificationAsync(specs);
+            var countSpecs = new ProductWithCountSpecification(input);
+            var count = await _unitOfWork.Repository<Product, int>().GetCoutSpecificationAsync(countSpecs);
             var mappedProducts = _mapper.Map<IReadOnlyList<ProductDetailsDto>>(products);
 
-            return mappedProducts;
+            return new PaginatedResultDto<ProductDetailsDto>(input.PageSize, input.PageIndex, count, mappedProducts);
         }
 
         public async Task<IReadOnlyList<BrandTypeDetailsDto>> GetAllTypesAsync()
