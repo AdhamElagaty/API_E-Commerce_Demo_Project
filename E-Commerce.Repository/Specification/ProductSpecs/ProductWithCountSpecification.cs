@@ -11,7 +11,8 @@ namespace E_Commerce.Repository.Specification.ProductSpecs
     {
         public ProductWithCountSpecification(ProductSpecification specs) :
             base(product => (!specs.BrandId.HasValue || product.BrandId == specs.BrandId.Value) &&
-                            (!specs.TypeId.HasValue || product.TypeId == specs.TypeId.Value)
+                            (!specs.TypeId.HasValue || product.TypeId == specs.TypeId.Value) &&
+                            (string.IsNullOrEmpty(specs.Search) || product.Name.Trim().ToLower().Contains(specs.Search))
             )
         {
 
