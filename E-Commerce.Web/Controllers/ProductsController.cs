@@ -2,6 +2,7 @@
 using E_Commerce.Service.Services.ProductServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using E_Commerce.Repository.Specification.ProductSpecs;
 
 namespace E_Commerce.Web.Controllers
 {
@@ -24,8 +25,8 @@ namespace E_Commerce.Web.Controllers
             => Ok(await _productService.GetAllTypesAsync());
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDetailsDto>>> GetAllProducts()
-            => Ok(await _productService.GetAllProductsAsync());
+        public async Task<ActionResult<IReadOnlyList<ProductDetailsDto>>> GetAllProducts([FromQuery] ProductSpecification input)
+            => Ok(await _productService.GetAllProductsAsync(input));
 
         [HttpGet]
         public async Task<ActionResult<ProductDetailsDto>> GetProductById(int? id)
