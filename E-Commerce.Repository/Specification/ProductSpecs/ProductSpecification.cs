@@ -10,5 +10,6 @@ namespace E_Commerce.Repository.Specification.ProductSpecs
     {
         public int? BrandId { get; set; }
         public int? TypeId { get; set; }
+        public String? Sort { get; set; }
     }
 }

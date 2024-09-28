@@ -52,9 +52,11 @@ namespace E_Commerce.Service.Services.ProductServices
             if (productId is null)
                 throw new Exception("Id is null");
 
-            var product = await _unitOfWork.Repository<Product, int>().GetByIdAsync(productId.Value);
+            var specs = new ProductWithSpecifications(productId);
+
+            var product = await _unitOfWork.Repository<Product, int>().GetWithSpecificationByIdAsync(specs);
             if (product is null)
-                throw new Exception("Product Not Found");
+                throw new Exception("ProductSpecs Not Found");
 
             var mappedProduct = _mapper.Map<ProductDetailsDto>(product);
 

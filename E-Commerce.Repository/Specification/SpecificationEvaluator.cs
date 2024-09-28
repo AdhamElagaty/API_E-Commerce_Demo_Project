@@ -16,6 +16,12 @@ namespace E_Commerce.Repository.Specification
             if (specs.Criteria is not null)
                 query = query.Where(specs.Criteria);
 
+            if (specs.OrderBy is not null)
+                query = query.OrderBy(specs.OrderBy);
+
+            if (specs.OrderByDescending is not null)
+                query = query.OrderByDescending(specs.OrderByDescending);
+
             query = specs.Includes.Aggregate(query, (current, includeExpression) => current.Include(includeExpression));
 
             return query;
