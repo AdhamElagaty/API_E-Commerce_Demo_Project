@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using E_Commerce.Data.Entities;
 using E_Commerce.Repository.Interfaces;
+using E_Commerce.Repository.Specification.ProductSpecs;
 using E_Commerce.Service.Services.ProductServices.Dtos;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,10 @@ namespace E_Commerce.Service.Services.ProductServices
             return mappedBrands;
         }
 
-        public async Task<IReadOnlyList<ProductDetailsDto>> GetAllProductsAsync()
+        public async Task<IReadOnlyList<ProductDetailsDto>> GetAllProductsAsync(ProductSpecification input)
         {
-            var products = await _unitOfWork.Repository<Product, int>().GetAllAsNoTrackingAsync();
+            var specs = new ProductWithSpecifications(input);
+            var products = await _unitOfWork.Repository<Product, int>().GetAllWithSpecificationAsync(specs);
             var mappedProducts = _mapper.Map<IReadOnlyList<ProductDetailsDto>>(products);
 
             return mappedProducts;
