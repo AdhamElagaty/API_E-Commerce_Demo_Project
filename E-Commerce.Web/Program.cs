@@ -5,6 +5,11 @@ using E_Commerce.Repository.Interfaces;
 using E_Commerce.Repository.Repository;
 using E_Commerce.Service.Services.ProductServices;
 using E_Commerce.Service.Services.ProductServices.Dtos;
+using E_Commerce.Web.Middleware;
+using Microsoft.AspNetCore.Mvc;
+using E_Commerce.Service.HandleResponses;
+using E_Commerce.Web.Extensions;
+using StackExchange.Redis;
 
 namespace E_Commerce.Web
 {
@@ -23,9 +28,14 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddAutoMapper(typeof(ProductProfile));
+            builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+            {
+                var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
+            builder.Services.AddApplicationServices();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -40,6 +50,8 @@ namespace E_Commerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
