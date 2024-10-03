@@ -5,6 +5,7 @@ using E_Commerce.Repository.Interfaces;
 using E_Commerce.Repository.Repository;
 using E_Commerce.Service.Services.ProductServices;
 using E_Commerce.Service.Services.ProductServices.Dtos;
+using E_Commerce.Web.Middleware;
 
 namespace E_Commerce.Web
 {
@@ -40,6 +41,8 @@ namespace E_Commerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
