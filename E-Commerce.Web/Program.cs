@@ -9,6 +9,7 @@ using E_Commerce.Web.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using E_Commerce.Service.HandleResponses;
 using E_Commerce.Web.Extensions;
+using StackExchange.Redis;
 
 namespace E_Commerce.Web
 {
@@ -25,6 +26,12 @@ namespace E_Commerce.Web
             builder.Services.AddDbContext<ECommerceDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+            {
+                var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(configuration);
             });
 
             builder.Services.AddApplicationServices();

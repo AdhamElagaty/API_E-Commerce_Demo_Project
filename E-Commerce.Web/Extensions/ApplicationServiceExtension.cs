@@ -4,6 +4,7 @@ using E_Commerce.Service.Services.ProductServices.Dtos;
 using E_Commerce.Service.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 using E_Commerce.Service.HandleResponses;
+using E_Commerce.Service.Services.CacheService;
 
 namespace E_Commerce.Web.Extensions
 {
@@ -13,6 +14,7 @@ namespace E_Commerce.Web.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICacheService, CacheService>();
             services.AddAutoMapper(typeof(ProductProfile));
 
             services.Configure<ApiBehaviorOptions>(options =>
