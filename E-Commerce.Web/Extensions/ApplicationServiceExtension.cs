@@ -5,6 +5,9 @@ using E_Commerce.Service.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 using E_Commerce.Service.HandleResponses;
 using E_Commerce.Service.Services.CacheService;
+using E_Commerce.Repository.Basket;
+using E_Commerce.Service.Services.BasketService;
+using E_Commerce.Service.Services.BasketService.Dtos;
 
 namespace E_Commerce.Web.Extensions
 {
@@ -15,7 +18,10 @@ namespace E_Commerce.Web.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddAutoMapper(typeof(ProductProfile));
+            services.AddAutoMapper(typeof(BasketProfile));
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
