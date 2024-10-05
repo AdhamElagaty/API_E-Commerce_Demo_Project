@@ -41,6 +41,8 @@ namespace E_Commerce.Web
 
             builder.Services.AddApplicationServices();
 
+            builder.Services.AddIdentityServices();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

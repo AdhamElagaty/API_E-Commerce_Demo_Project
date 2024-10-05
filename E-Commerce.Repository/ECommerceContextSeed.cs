@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Repository
 {
-    public class StoreContextSeed
+    public class ECommerceContextSeed
     {
         public static async Task SeedAsync(ECommerceDbContext context, ILoggerFactory loggerFactory)
         {
@@ -49,7 +49,7 @@ namespace E_Commerce.Repository
             }
             catch (Exception ex)
             {
-                var logger = loggerFactory.CreateLogger<StoreContextSeed>();
+                var logger = loggerFactory.CreateLogger<ECommerceContextSeed>();
                 logger.LogError(ex.Message);
                 throw;
             }

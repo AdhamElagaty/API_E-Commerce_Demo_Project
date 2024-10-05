@@ -1,5 +1,7 @@
 ﻿using E_Commerce.Data.Contexts;
+using E_Commerce.Data.Entities.IdentityEntities;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Web.Helper
@@ -15,8 +17,11 @@ namespace E_Commerce.Web.Helper
                 try
                 {
                     var context = services.GetRequiredService<ECommerceDbContext>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
                     await context.Database.MigrateAsync();
-                    await StoreContextSeed.SeedAsync(context, loggerFactory);
+                    await ECommerceContextSeed.SeedAsync(context, loggerFactory);
+                    await ECommerceIdentityContextSeed.SeedUsersAsync(userManager);
                 }
                 catch (Exception ex)
                 {
