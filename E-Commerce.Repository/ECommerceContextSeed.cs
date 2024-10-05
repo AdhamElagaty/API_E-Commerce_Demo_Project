@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Repository
 {
-    public class StoreContextSeed
+    public class ECommerceContextSeed
     {
         public static async Task SeedAsync(ECommerceDbContext context, ILoggerFactory loggerFactory)
         {
@@ -37,12 +37,19 @@ namespace E_Commerce.Repository
                     if (products is not null)
                         await context.Products.AddRangeAsync(products);
                 }
+                if (context.DeliveryMethods != null && !context.DeliveryMethods.Any())
+                {
+                    var methodsData = File.ReadAllText("../E-Commerce.Repository/SeedData/delivery.json");
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(methodsData);
+                    if (methods is not null)
+                        await context.DeliveryMethods.AddRangeAsync(methods);
+                }
 
                 await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                var logger = loggerFactory.CreateLogger<StoreContextSeed>();
+                var logger = loggerFactory.CreateLogger<ECommerceContextSeed>();
                 logger.LogError(ex.Message);
                 throw;
             }
