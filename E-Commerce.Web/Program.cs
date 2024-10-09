@@ -1,13 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using E_Commerce.Data.Contexts;
 using E_Commerce.Web.Helper;
-using E_Commerce.Repository.Interfaces;
-using E_Commerce.Repository.Repository;
-using E_Commerce.Service.Services.ProductServices;
-using E_Commerce.Service.Services.ProductServices.Dtos;
 using E_Commerce.Web.Middleware;
-using Microsoft.AspNetCore.Mvc;
-using E_Commerce.Service.HandleResponses;
 using E_Commerce.Web.Extensions;
 using StackExchange.Redis;
 
@@ -41,7 +35,7 @@ namespace E_Commerce.Web
 
             builder.Services.AddApplicationServices();
 
-            builder.Services.AddIdentityServices();
+            builder.Services.AddIdentityServices(builder.Configuration);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
