@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using E_Commerce.Repository.Specification.ProductSpecs;
 using E_Commerce.Web.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce.Web.Controllers
 {
+    [Authorize]
     public class ProductsController : BaseController
     {
         private readonly IProductService _productService;
