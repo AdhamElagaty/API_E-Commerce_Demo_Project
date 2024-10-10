@@ -8,6 +8,8 @@ using E_Commerce.Service.Services.CacheService;
 using E_Commerce.Repository.Basket;
 using E_Commerce.Service.Services.BasketService;
 using E_Commerce.Service.Services.BasketService.Dtos;
+using E_Commerce.Service.Services.UserService;
+using E_Commerce.Service.Services.TokenService;
 
 namespace E_Commerce.Web.Extensions
 {
@@ -19,6 +21,8 @@ namespace E_Commerce.Web.Extensions
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddAutoMapper(typeof(ProductProfile));
             services.AddAutoMapper(typeof(BasketProfile));
