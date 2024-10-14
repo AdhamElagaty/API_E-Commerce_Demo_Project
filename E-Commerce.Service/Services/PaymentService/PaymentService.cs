@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Stripe;
 using Product = E_Commerce.Data.Entities.Product;
+using E_Commerce.Repository.Specification.OrderSpecs;
 
 namespace E_Commerce.Service.Services.PaymentService
 {
@@ -81,14 +82,40 @@ namespace E_Commerce.Service.Services.PaymentService
             return basket;
         }
 
-        public Task<OrderDetailsDto> UpdateOrderPaymentFailed(string paymentIntentId)
+        public async Task<OrderDetailsDto> UpdateOrderPaymentFailed(string paymentIntentId)
         {
-            throw new NotImplementedException();
+            var spec = new OrderWithPaymentIntentSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order, Guid>().GetWithSpecificationByIdAsync(spec);
+
+            if (order is null)
+                throw new Exception("Order Does Not Exist");
+
+            order.OrderPaymentStatus = OrderPaymentStatus.Failed;
+            _unitOfWork.Repository<Order, Guid>().Update(order);
+            await _unitOfWork.CompleteAsync();
+            var mappedOrder = _mapper.Map<OrderDetailsDto>(order);
+            return mappedOrder;
         }
 
-        public Task<OrderDetailsDto> UpdateOrderPaymentSucceeded(string paymentIntentId)
+        public async Task<OrderDetailsDto> UpdateOrderPaymentSucceeded(string paymentIntentId)
         {
-            throw new NotImplementedException();
+            var spec = new OrderWithPaymentIntentSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order, Guid>().GetWithSpecificationByIdAsync(spec);
+
+            if (order is null)
+                throw new Exception("Order Does Not Exist");
+
+            order.OrderPaymentStatus = OrderPaymentStatus.Received;
+
+            _unitOfWork.Repository<Order, Guid>().Update(order);
+
+            await _unitOfWork.CompleteAsync();
+
+            await _basketService.DeleteBasketAsync(order.BasketId);
+
+            var mappedOrder = _mapper.Map<OrderDetailsDto>(order);
+
+            return mappedOrder;
         }
     }
 }
