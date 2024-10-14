@@ -23,7 +23,7 @@ namespace E_Commerce.Web.Extensions
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IOrderService, OrderServices>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddAutoMapper(typeof(ProductProfile));
