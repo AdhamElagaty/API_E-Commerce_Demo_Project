@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce.Repository.Specification.OrderSpecs;
 
 namespace E_Commerce.Service.Services.OrderService
 {
@@ -84,19 +85,33 @@ namespace E_Commerce.Service.Services.OrderService
             return mappedOrder;
         }
 
-        public Task<IReadOnlyList<DeliveryMethod>> GetAllDeliveryMethodsAsync()
+        public async Task<IReadOnlyList<DeliveryMethod>> GetAllDeliveryMethodsAsync()
+            => await _unitOfWork.Repository<DeliveryMethod, int>().GetAllAsync();
+
+        public async Task<IReadOnlyList<OrderDetailsDto>> GetAllOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            var specs = new OrderWithItemSpecification(buyerEmail);
+
+            var orders = await _unitOfWork.Repository<Order, Guid>().GetAllWithSpecificationAsync(specs);
+
+            if (!orders.Any())
+                throw new Exception("YOU DONT HAVE ANY ORDERS YET");
+
+            var mappedOrders = _mapper.Map<IReadOnlyList<OrderDetailsDto>>(orders);
+            return mappedOrders;
         }
 
-        public Task<IReadOnlyList<OrderDetailsDto>> GetAllOrdersForUserAsync(string buyerEmail)
+        public async Task<OrderDetailsDto> GetOrderByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            var specs = new OrderWithItemSpecification(id);
 
-        public Task<OrderDetailsDto> GetOrderByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.Repository<Order, Guid>().GetWithSpecificationByIdAsync(specs);
+
+            if (order is null)
+                throw new Exception($"There is no order with id {id}");
+
+            var mappedOrders = _mapper.Map<OrderDetailsDto>(order);
+            return mappedOrders;
         }
     }
 }
