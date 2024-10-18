@@ -11,6 +11,7 @@ using E_Commerce.Service.Services.BasketService.Dtos;
 using E_Commerce.Service.Services.UserService;
 using E_Commerce.Service.Services.TokenService;
 using E_Commerce.Service.Services.OrderService;
+using E_Commerce.Service.Services.PaymentService;
 
 namespace E_Commerce.Web.Extensions
 {
@@ -25,6 +26,7 @@ namespace E_Commerce.Web.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddAutoMapper(typeof(ProductProfile));
             services.AddAutoMapper(typeof(BasketProfile));
