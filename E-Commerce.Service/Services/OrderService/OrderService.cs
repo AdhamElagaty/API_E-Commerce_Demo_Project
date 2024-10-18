@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using E_Commerce.Repository.Specification.OrderSpecs;
+using E_Commerce.Service.Services.PaymentService;
 
 namespace E_Commerce.Service.Services.OrderService
 {
@@ -18,12 +19,14 @@ namespace E_Commerce.Service.Services.OrderService
         private readonly IBasketService _basketService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPaymentService _paymentService;
 
-        public OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper)
+        public OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IMapper mapper, IPaymentService paymentService)
         {
             _basketService = basketService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _paymentService = paymentService;
         }
         public async Task<OrderDetailsDto> CreateOrderAsync(OrderDto input)
         {
@@ -67,6 +70,13 @@ namespace E_Commerce.Service.Services.OrderService
             // Calculate Subtotal
             var subtotal = orderItems.Sum(item => item.Quantity * item.Price);
 
+            var specs = new OrderWithPaymentIntentSpecification(basket.PaymentIntentId);
+
+            var existingOrder = await _unitOfWork.Repository<Order, Guid>().GetWithSpecificationByIdAsync(specs);
+
+            if (existingOrder is null)
+                await _paymentService.CreateOrUpdatePaymentIntent(basket);
+
 
             var mappedShippingAddress = _mapper.Map<ShippingAddress>(input.ShippingAddress);
             var mappedOrderItems = _mapper.Map<List<OrderItem>>(orderItems);
@@ -78,6 +88,7 @@ namespace E_Commerce.Service.Services.OrderService
                 BasketId = input.BasketId,
                 OrderItems = mappedOrderItems,
                 Subtotal = subtotal,
+                PaymentIntentId = basket.PaymentIntentId,
             };
             await _unitOfWork.Repository<Order, Guid>().AddAsync(order);
             await _unitOfWork.CompleteAsync();
