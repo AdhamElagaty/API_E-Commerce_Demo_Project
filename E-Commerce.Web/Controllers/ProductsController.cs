@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProductsController : BaseController
     {
         private readonly IProductService _productService;
