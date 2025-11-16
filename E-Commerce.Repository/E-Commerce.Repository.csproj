@@ -11,4 +11,12 @@
     <ProjectReference Include="..\E-Commerce.Data\E-Commerce.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SeedData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+  </ItemGroup>
+
 </Project>
